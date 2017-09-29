@@ -74,17 +74,30 @@ I verified that my perspective transform was working as expected by drawing the 
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+After applying calibration, thresholding, and a perspective transform to a road image, I got a binary image.
+
+1. I first token a histogram along all the columns in the lower half of the image like this:
+> histogram = np.sum(img[img.shape[0]//2:,:], axis=0)
+
+
+2. According to the above histogram, you can figure out the left and right peaks, which represent the left and right lane line represently. 
+
+3. So I used the above peak values as the start point of the left and right lines. Then I used the fixed window move the bottom to the top of image. During the procedure, I needed to adjust the center of sliding window.
+
+4. Finally I got the line pixel positions, and fitted a second order polynomial.
 
 ![alt text][image5]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines through in my code in `fill_lane()`
+I refered a awesome [tutorial](https://www.intmath.com/applications-differentiation/8-radius-curvature.php) to calculate the radius of curvature of the lane.
+
+I used the below formula to calculate the center position
+> center = abs(middle-of-x-axis - ((position-of-left-line-bottom + position-of-right-line-bottom)/2))
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I also did this in lines through in my code in `fill_lane()`.  Here is an example of my result on a test image:
+ Here is an example of my result on a test image:
 
 ![alt text][image6]
 
