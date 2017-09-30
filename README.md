@@ -3,7 +3,7 @@
 
 ![Final Result Gif](./output_images/project_video_result.gif)
 
-[YouTube Link](https://youtu.be/bImDVfLr7Eg)
+[YouTube Link](https://youtu.be/_AIMz2VgAMk)
 
 ---
 
@@ -60,11 +60,11 @@ In this step i choose L channel of LUV and b channel of Lab. Because L channel r
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
-In this step I will use birds_eye() to transform the undistorted image to "birdseye" of the lane, and displays 
+In this step I will use the `birds_eye()` function  to transform the undistorted image to "birdseye" of the lane, and displays 
 them in such a way that they appear to be relatively parallel to eachother. It can be convenient for fit polynomials
 to the lane line and measure the curvature.
 
-The code for my perspective transform includes a function called `birds_eye()`.  I used the method get_src_dest_warp_points to the source and destination points, and them show below:
+The code for my perspective transform includes a function called `birds_eye()`.  I used the `get_src_dest_warp_points()` function to the source and destination points, and them show below:
 
 ``` Python
 src = [[  253.   697.]
