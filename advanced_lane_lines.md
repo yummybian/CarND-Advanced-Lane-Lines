@@ -17,13 +17,13 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/undistort_output.png "Undistorted"
-[image2]: ./examples/orig_undistorted.png "Undistorted"
-[image3]: ./examples/binary_combo_example.png "Binary Example"
-[image4]: ./examples/warped_straight_lines.png "Warp Example"
-[image5]: ./examples/color_fit_lines.jpg "Fit Visual"
-[image6]: ./examples/example_output.png "Output"
-[video1]: ./examples/project_video.mp4 "Video"
+[image1]: ./output_images/undistort_output.png "Undistorted"
+[image2]: ./output_images/orig_undistorted.png "Undistorted"
+[image3]: ./output_images/binary_combo_example.png "Binary Example"
+[image4]: ./output_images/warped_straight_lines.png "Warp Example"
+[image5]: ./output_images/color_fit_lines.jpg "Fit Visual"
+[image6]: ./output_images/lane_screenshot.png "Output"
+[video1]: ./output_images/project_video_result.mp4 "Video"
 
 ---
 
@@ -59,13 +59,18 @@ In this step I will use birds_eye() to transform the undistorted image to "birds
 them in such a way that they appear to be relatively parallel to eachother. It can be convenient for fit polynomials
 to the lane line and measure the curvature.
 
-The code for my perspective transform includes a function called `birds_eye()`.  I chose the hardcode the source and destination points in the following manner:
+The code for my perspective transform includes a function called `birds_eye()`.  I used the method get_src_dest_warp_points to the source and destination points, and them show below:
 
-```python
-perspective_src = np.float32([[490, 482],[810, 482], 
-                                [1250, 720],[40, 720]])
-perspective_dst = np.float32([[0, 0], [1280, 0], 
-                                [1250, 720],[40, 720]])
+``` Python
+src = [[  253.   697.]
+ [  585.   456.]
+ [  700.   456.]
+ [ 1061.   690.]]
+
+dest = [[  303.   697.]
+ [  303.     0.]
+ [ 1011.     0.]
+ [ 1011.   690.]]
 ```
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
@@ -97,7 +102,7 @@ I used the below formula to calculate the center position
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
- Here is an example of my result on a test image:
+Here is a screenshot of video output:
 
 ![alt text][image6]
 
@@ -107,7 +112,7 @@ I used the below formula to calculate the center position
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](./examples/project_video.mp4)
+Here's a [link to my video result](./output_images/project_video_result.mp4)
 
 ---
 
@@ -116,3 +121,12 @@ Here's a [link to my video result](./examples/project_video.mp4)
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
 At the beginning, I used sliding windows to search each frame. But I found it can't work well. So I imporved it, and searched in a margin around the previous line position.
+
+- **where will your pipeline likely fail?**
+I guess it could tend to be failed if exist similar line near the lane lines.
+
+ 
+- **what could you do to make it more robust?**
+
+1. Investigate other colour space and their channels to see which still shows the lanes the best over the concrete sections of road.
+2. Check the mean squared error between subsequent polynomial fits. If the error is greater than a determined threshold then drop the frame (not the frame itself but the lane line finding result).
